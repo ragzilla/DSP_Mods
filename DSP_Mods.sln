@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_RecipeDumper", "DSP_RecipeDumper\DSP_RecipeDumper.csproj", "{24325686-FE7B-45D4-BEBC-53B36146686E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_MinerOverride", "DSP_VeinOverride\DSP_MinerOverride.csproj", "{D44D9BE3-3DBB-46B5-B43C-CDE3C8010707}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_MinerOverride", "DSP_MinerOverride\DSP_MinerOverride.csproj", "{D44D9BE3-3DBB-46B5-B43C-CDE3C8010707}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
