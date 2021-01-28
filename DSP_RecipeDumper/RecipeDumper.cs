@@ -15,9 +15,6 @@ namespace DSP_RecipeDumper
         {
             var harmony = new Harmony("us.evilgeni.dsp_recipedumper"); 
             harmony.PatchAll();
-            //UnityEngine.Debug.Log("[meta]");
-            //UnityEngine.Debug.Log("version = \"\"\"" + GameConfig.gameVersion.ToFullString() + "\"\"\"");
-            //UnityEngine.Debug.Log("build = " + GameConfig.build);
         }
 
         [HarmonyPatch(typeof(GlobalObject), "LoadVersions")]
@@ -25,9 +22,18 @@ namespace DSP_RecipeDumper
         {
             public static void Postfix(GlobalObject __instance)
             {
-                UnityEngine.Debug.Log("[meta]");
-                UnityEngine.Debug.Log("version = \"\"\"" + GameConfig.gameVersion.ToFullString() + "\"\"\"");
-                UnityEngine.Debug.Log("build = " + GameConfig.build);
+                DSP_RecipeDumper.Logger.Log("[meta]");
+                DSP_RecipeDumper.Logger.Log("version = \"\"\"" + GameConfig.gameVersion.ToFullString() + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("build = " + GameConfig.build);
+            }
+        }
+
+        [HarmonyPatch(typeof(GameMain), "Begin")]
+        public class GameMain_Begin
+        {
+            public static void Postfix(GlobalObject __instance)
+            {
+                DSP_RecipeDumper.Logger.Close();
             }
         }
 
@@ -38,22 +44,21 @@ namespace DSP_RecipeDumper
             public static void Postfix(RecipeProto __instance)
             {
                 var name = "recipe" + __instance.ID;
-                UnityEngine.Debug.Log("[" + name + "]");
-                // UnityEngine.Debug.Log("sid = \"\"\"" + __instance.SID + "\"\"\"");
-                UnityEngine.Debug.Log("name = \"\"\"" + __instance.name + "\"\"\"");
-                UnityEngine.Debug.Log("timespend = " + __instance.TimeSpend);
-                UnityEngine.Debug.Log("type = \"\"\"" + __instance.Type + "\"\"\"");
-                UnityEngine.Debug.Log("handcraft = " + __instance.Handcraft.ToString().ToLower());
-                UnityEngine.Debug.Log("explicit = " + __instance.Explicit.ToString().ToLower());
+                DSP_RecipeDumper.Logger.Log("[" + name + "]");
+                DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("timespend = " + __instance.TimeSpend);
+                DSP_RecipeDumper.Logger.Log("type = \"\"\"" + __instance.Type + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("handcraft = " + __instance.Handcraft.ToString().ToLower());
+                DSP_RecipeDumper.Logger.Log("explicit = " + __instance.Explicit.ToString().ToLower());
                 if (__instance.preTech != (TechProto)null)
-                    UnityEngine.Debug.Log("preTech = \"\"\"" + __instance.preTech.Name.Translate() + "\"\"\"");
-                UnityEngine.Debug.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
-                UnityEngine.Debug.Log("[" + name + ".items]");
+                    DSP_RecipeDumper.Logger.Log("preTech = \"\"\"" + __instance.preTech.Name.Translate() + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("[" + name + ".items]");
                 for (int i = 0; i < __instance.Items.Length; i++)
-                    UnityEngine.Debug.Log("item" + __instance.Items[i] + " = " + __instance.ItemCounts[i]);
-                UnityEngine.Debug.Log("[" + name + ".results]");
+                    DSP_RecipeDumper.Logger.Log("item" + __instance.Items[i] + " = " + __instance.ItemCounts[i]);
+                DSP_RecipeDumper.Logger.Log("[" + name + ".results]");
                 for (int i = 0; i < __instance.Results.Length; i++)
-                    UnityEngine.Debug.Log("item" + __instance.Results[i] + " = " + __instance.ResultCounts[i]);
+                    DSP_RecipeDumper.Logger.Log("item" + __instance.Results[i] + " = " + __instance.ResultCounts[i]);
             }
         }
 
@@ -64,14 +69,14 @@ namespace DSP_RecipeDumper
             public static void Postfix(ItemProto __instance)
             {
                 var name = "item" + __instance.ID;
-                UnityEngine.Debug.Log("[" + name + "]");
-                UnityEngine.Debug.Log("name = \"\"\"" + __instance.name + "\"\"\"");
-                UnityEngine.Debug.Log("miningFrom = \"\"\"" + __instance.miningFrom + "\"\"\"");
-                UnityEngine.Debug.Log("produceFrom = \"\"\"" + __instance.produceFrom + "\"\"\"");
-                UnityEngine.Debug.Log("description = \"\"\"" + __instance.description + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("[" + name + "]");
+                DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("miningFrom = \"\"\"" + __instance.miningFrom + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("produceFrom = \"\"\"" + __instance.produceFrom + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description + "\"\"\"");
                 if (__instance.preTech != (TechProto) null)
-                    UnityEngine.Debug.Log("preTech = \"\"\"" + __instance.preTech.Name.Translate() + "\"\"\"");
-                UnityEngine.Debug.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
+                    DSP_RecipeDumper.Logger.Log("preTech = \"\"\"" + __instance.preTech.Name.Translate() + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
             }
         }
 
@@ -82,47 +87,23 @@ namespace DSP_RecipeDumper
             public static void Postfix(TechProto __instance)
             {
                 var name = "tech" + __instance.ID;
-                UnityEngine.Debug.Log("[" + name + "]");
-                UnityEngine.Debug.Log("name = \"\"\"" + __instance.name + "\"\"\"");
-                UnityEngine.Debug.Log("description = \"\"\"" + __instance.description + "\"\"\"");
-                UnityEngine.Debug.Log("isLabTech = " + __instance.IsLabTech.ToString().ToLower());
-                UnityEngine.Debug.Log("hashNeeded = " + __instance.HashNeeded);
-                UnityEngine.Debug.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
-                UnityEngine.Debug.Log("preTechs = [");
+                DSP_RecipeDumper.Logger.Log("[" + name + "]");
+                DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("isLabTech = " + __instance.IsLabTech.ToString().ToLower());
+                DSP_RecipeDumper.Logger.Log("hashNeeded = " + __instance.HashNeeded);
+                DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("preTechs = [");
                 for (int i = 0; i < __instance.PreTechs.Length; i++)
-                    UnityEngine.Debug.Log("\"\"\"tech" + __instance.PreTechs[i] + "\"\"\", ");
-                UnityEngine.Debug.Log("]");
-                UnityEngine.Debug.Log("[" + name + ".items]");
+                    DSP_RecipeDumper.Logger.Log("\"\"\"tech" + __instance.PreTechs[i] + "\"\"\", ");
+                DSP_RecipeDumper.Logger.Log("]");
+                DSP_RecipeDumper.Logger.Log("[" + name + ".items]");
                 for (int i = 0; i < __instance.Items.Length; i++)
-                    UnityEngine.Debug.Log("item" + __instance.Items[i] + " = " + __instance.ItemPoints[i]);
-                UnityEngine.Debug.Log("[" + name + ".addItems]");
+                    DSP_RecipeDumper.Logger.Log("item" + __instance.Items[i] + " = " + __instance.ItemPoints[i]);
+                DSP_RecipeDumper.Logger.Log("[" + name + ".addItems]");
                 for (int i = 0; i < __instance.AddItems.Length; i++)
-                    UnityEngine.Debug.Log("item" + __instance.AddItems[i] + " = " + __instance.AddItemCounts[i]);
+                    DSP_RecipeDumper.Logger.Log("item" + __instance.AddItems[i] + " = " + __instance.AddItemCounts[i]);
             }
         }
     }
 }
-
-//public static string gameDocumentFolder
-//{
-//    get
-//    {
-//        if (GameConfig.gameDocument == null)
-//        {
-//            GameConfig.gameDocument = new StringBuilder(GameConfig.overrideDocumentFolder).Append(GameConfig.gameName).Append("/").ToString();
-//            if (!Directory.Exists(GameConfig.gameDocument))
-//                Directory.CreateDirectory(GameConfig.gameDocument);
-//        }
-//        return GameConfig.gameDocument;
-//    }
-//}
-
-//string path = GameConfig.gameSaveFolder + saveName + GameSave.saveExt;
-//try
-//{
-//    using (MemoryStream memoryStream = new MemoryStream(4194304))
-//    {
-//        using (BinaryWriter w = new BinaryWriter((Stream)memoryStream))
-//        {
-//using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
-//    memoryStream.WriteTo((Stream)fileStream);
