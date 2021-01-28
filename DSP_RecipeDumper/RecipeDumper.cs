@@ -88,9 +88,10 @@ namespace DSP_RecipeDumper
                 UnityEngine.Debug.Log("isLabTech = " + __instance.IsLabTech.ToString().ToLower());
                 UnityEngine.Debug.Log("hashNeeded = " + __instance.HashNeeded);
                 UnityEngine.Debug.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
-                UnityEngine.Debug.Log("[" + name + ".preTechs]");
+                UnityEngine.Debug.Log("preTechs = [");
                 for (int i = 0; i < __instance.PreTechs.Length; i++)
-                    UnityEngine.Debug.Log("tech" + __instance.PreTechs[i] + ", ");
+                    UnityEngine.Debug.Log("\"\"\"tech" + __instance.PreTechs[i] + "\"\"\", ");
+                UnityEngine.Debug.Log("]");
                 UnityEngine.Debug.Log("[" + name + ".items]");
                 for (int i = 0; i < __instance.Items.Length; i++)
                     UnityEngine.Debug.Log("item" + __instance.Items[i] + " = " + __instance.ItemPoints[i]);
