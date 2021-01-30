@@ -243,7 +243,19 @@ namespace DSP_RecipeDumper
             {"recipe112",   "terrain-tool"},
             {"recipe113",   "fusion-power-station"},
             {"recipe114",   "storage-tank"},
-            {"recipe115",   "deuterium-formula"}
+            {"recipe115",   "deuterium-formula"},
+            {"miner1",      "water" },
+            {"miner2",      "vein" },
+            {"miner3",      "oil" },
+            {"assemble1",   "smelt" },
+            {"assemble2",   "chemical" },
+            {"assemble3",   "refine" },
+            {"assemble4",   "assemble" },
+            {"assemble5",   "particle" },
+            {"assemble6",   "exchange" },
+            {"assemble7",   "photonstore" },
+            {"assemble8",   "fractionate" },
+            {"assemble15",  "research" }
         };
 
         public static string Get(string key)
