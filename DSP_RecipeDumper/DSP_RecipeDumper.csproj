@@ -73,12 +73,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Translate.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="RecipeDumper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ILMerge" Version="3.0.41" />

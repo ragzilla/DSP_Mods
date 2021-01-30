@@ -43,7 +43,7 @@ namespace DSP_RecipeDumper
             [HarmonyPostfix]
             public static void Postfix(RecipeProto __instance)
             {
-                var name = "recipe" + __instance.ID;
+                var name = DSP_RecipeDumper.Translate.Get("recipe" + __instance.ID);
                 DSP_RecipeDumper.Logger.Log("[" + name + "]");
                 DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
                 DSP_RecipeDumper.Logger.Log("timespend = " + __instance.TimeSpend);
@@ -55,10 +55,10 @@ namespace DSP_RecipeDumper
                 DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
                 DSP_RecipeDumper.Logger.Log("[" + name + ".items]");
                 for (int i = 0; i < __instance.Items.Length; i++)
-                    DSP_RecipeDumper.Logger.Log("item" + __instance.Items[i] + " = " + __instance.ItemCounts[i]);
+                    DSP_RecipeDumper.Logger.Log("\"\"\"" + DSP_RecipeDumper.Translate.Get("item" + __instance.Items[i]) + "\"\"\" = " + __instance.ItemCounts[i]);
                 DSP_RecipeDumper.Logger.Log("[" + name + ".results]");
                 for (int i = 0; i < __instance.Results.Length; i++)
-                    DSP_RecipeDumper.Logger.Log("item" + __instance.Results[i] + " = " + __instance.ResultCounts[i]);
+                    DSP_RecipeDumper.Logger.Log("\"\"\"" + DSP_RecipeDumper.Translate.Get("item" + __instance.Results[i]) + "\"\"\" = " + __instance.ResultCounts[i]);
             }
         }
 
@@ -68,12 +68,12 @@ namespace DSP_RecipeDumper
             [HarmonyPostfix]
             public static void Postfix(ItemProto __instance)
             {
-                var name = "item" + __instance.ID;
+                var name = DSP_RecipeDumper.Translate.Get("item" + __instance.ID);
                 DSP_RecipeDumper.Logger.Log("[" + name + "]");
                 DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
-                DSP_RecipeDumper.Logger.Log("miningFrom = \"\"\"" + __instance.miningFrom + "\"\"\"");
-                DSP_RecipeDumper.Logger.Log("produceFrom = \"\"\"" + __instance.produceFrom + "\"\"\"");
-                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("miningFrom = \"\"\"" + __instance.miningFrom.Trim() + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("produceFrom = \"\"\"" + __instance.produceFrom.Trim() + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description.Trim() + "\"\"\"");
                 if (__instance.preTech != (TechProto) null)
                     DSP_RecipeDumper.Logger.Log("preTech = \"\"\"" + __instance.preTech.Name.Translate() + "\"\"\"");
                 DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
@@ -89,7 +89,7 @@ namespace DSP_RecipeDumper
                 var name = "tech" + __instance.ID;
                 DSP_RecipeDumper.Logger.Log("[" + name + "]");
                 DSP_RecipeDumper.Logger.Log("name = \"\"\"" + __instance.name + "\"\"\"");
-                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description + "\"\"\"");
+                DSP_RecipeDumper.Logger.Log("description = \"\"\"" + __instance.description.Trim() + "\"\"\"");
                 DSP_RecipeDumper.Logger.Log("isLabTech = " + __instance.IsLabTech.ToString().ToLower());
                 DSP_RecipeDumper.Logger.Log("hashNeeded = " + __instance.HashNeeded);
                 DSP_RecipeDumper.Logger.Log("iconPath = \"\"\"" + __instance.IconPath + "\"\"\"");
@@ -99,10 +99,10 @@ namespace DSP_RecipeDumper
                 DSP_RecipeDumper.Logger.Log("]");
                 DSP_RecipeDumper.Logger.Log("[" + name + ".items]");
                 for (int i = 0; i < __instance.Items.Length; i++)
-                    DSP_RecipeDumper.Logger.Log("item" + __instance.Items[i] + " = " + __instance.ItemPoints[i]);
+                    DSP_RecipeDumper.Logger.Log("\"\"\"" + DSP_RecipeDumper.Translate.Get("item" + __instance.Items[i]) + "\"\"\" = " + __instance.ItemPoints[i]);
                 DSP_RecipeDumper.Logger.Log("[" + name + ".addItems]");
                 for (int i = 0; i < __instance.AddItems.Length; i++)
-                    DSP_RecipeDumper.Logger.Log("item" + __instance.AddItems[i] + " = " + __instance.AddItemCounts[i]);
+                    DSP_RecipeDumper.Logger.Log("\"\"\"" + DSP_RecipeDumper.Translate.Get("item" + __instance.AddItems[i]) + "\"\"\" = " + __instance.AddItemCounts[i]);
             }
         }
     }

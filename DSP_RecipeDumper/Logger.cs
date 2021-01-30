@@ -9,7 +9,7 @@ namespace DSP_RecipeDumper
 {
     public static class Logger
     {
-        static MemoryStream memoryStream = new MemoryStream(4194304);
+        static MemoryStream memoryStream = new MemoryStream();
         static StreamWriter streamWriter = new StreamWriter((Stream)memoryStream);
         static readonly string path;
         static readonly string iconPath;
@@ -28,17 +28,23 @@ namespace DSP_RecipeDumper
 
         public static void Log(string str)
         {
+            if (memoryStream == null) return;
             streamWriter.WriteLine(str);
         }
 
         public static void Close()
         {
-            if (memoryStream.Length > 0)
+            if (memoryStream != null && memoryStream.Length > 0)
             {
                 using (FileStream fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
                 {
+                    streamWriter.Flush();
                     memoryStream.WriteTo(fileStream);
+                    fileStream.Flush();
+                    fileStream.Close();
+                    streamWriter.Close();
                     memoryStream.Close();
+                    memoryStream = null;
                 }
             } 
         }
