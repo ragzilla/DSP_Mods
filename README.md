@@ -7,6 +7,9 @@ A few mods I wrote for myself for [Dyson Sphere Program](https://store.steampowe
 ###### DSP_MinerOverride
 This transpiles the MinerComponent::InternalUpdate method to not deduct resources from the Vein (and a few other places it's tracked).  Useful if you regret not choosing the 100x resource multiplier when you started your game.
 
+###### DSP_WhoNeedsDirt
+This overrides the return value from PlanetFactory::ComputeFlattenTerrainReform so terrain modifications do not consume, or add, dirt/sand/soil.
+
 ###### DSP_RecipeDumper
 This adds Postfix methods to the Recipe and Item database loaders, and dumps some selected fields in something vaguely resembling TOML markup.  I was thinking about writing a recipe tool, but this seems different enough to the other ones I could use as a base that I'll leave that up to someone with actual frontend experience.
 
