@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_MinerOverride", "DSP_Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_WhoNeedsDirt", "DSP_WhoNeedsDirt\DSP_WhoNeedsDirt.csproj", "{98C2A92E-9BF5-4CDA-BE17-35109EC70063}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_NoResearchNag", "DSP_NoResearchNag\DSP_NoResearchNag.csproj", "{4D215902-80D4-49E3-A55F-F513E5DF5E12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{98C2A92E-9BF5-4CDA-BE17-35109EC70063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98C2A92E-9BF5-4CDA-BE17-35109EC70063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98C2A92E-9BF5-4CDA-BE17-35109EC70063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
