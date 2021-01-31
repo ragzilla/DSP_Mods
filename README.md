@@ -10,6 +10,9 @@ This transpiles the MinerComponent::InternalUpdate method to not deduct resource
 ###### DSP_WhoNeedsDirt
 This overrides the return value from PlanetFactory::ComputeFlattenTerrainReform so terrain modifications do not consume, or add, dirt/sand/soil.
 
+###### DSP_NoResearchNag
+Disables the "slow research speed" nag which pops up around every 5 minutes when you're not generating enough hashes/sec to keep CentreBrain happy.
+
 ###### DSP_RecipeDumper
 This adds Postfix methods to the Recipe and Item database loaders, and dumps some selected fields in something vaguely resembling TOML markup.  I was thinking about writing a recipe tool, but this seems different enough to the other ones I could use as a base that I'll leave that up to someone with actual frontend experience.
 
