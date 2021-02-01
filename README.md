@@ -2,6 +2,8 @@
 
 A few mods I wrote for myself for [Dyson Sphere Program](https://store.steampowered.com/app/1366540/Dyson_Sphere_Program/).  All mods (currently) require you have [BepinEx](https://bepinex.github.io/bepinex_docs/master/) extracted into your DSP directory, which is used to bootstrap and loads these DLLs.  The compiled plugins need to be placed in your `Dyson Sphere Program\BepInEx\plugins` folder.
 
+**Do not report problems to the developers** when running any of these mods (or even a savegame you've used one of these mods in). The game currently does not support mods. The devs do not need spurious bug reports caused by a modded game. Reproduce your bug on a 100% vanilla game and save, or assume it's potentially related to a mod unless you know with 100% certainty it wasn't influenced in any way by any mod you have installed now or in the past. 
+
 #### The Mods
 
 ##### QOL/Mechanic Changing
