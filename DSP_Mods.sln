@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_WhoNeedsDirt", "DSP_Who
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_NoResearchNag", "DSP_NoResearchNag\DSP_NoResearchNag.csproj", "{4D215902-80D4-49E3-A55F-F513E5DF5E12}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_MoreStars", "DSP_MoreStars\DSP_MoreStars.csproj", "{A34C1FE5-6B70-4790-B456-E0557E774483}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D215902-80D4-49E3-A55F-F513E5DF5E12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A34C1FE5-6B70-4790-B456-E0557E774483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A34C1FE5-6B70-4790-B456-E0557E774483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A34C1FE5-6B70-4790-B456-E0557E774483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A34C1FE5-6B70-4790-B456-E0557E774483}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
