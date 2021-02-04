@@ -31,7 +31,7 @@ namespace DSP_RecipeDumper
         [HarmonyPatch(typeof(GameMain), "Begin")]
         public class GameMain_Begin
         {
-            public static void Postfix(GlobalObject __instance)
+            public static void Postfix(GameMain __instance)
             {
                 DSP_RecipeDumper.Logger.Close();
             }
