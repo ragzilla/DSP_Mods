@@ -39,6 +39,7 @@ namespace DSP_SeedExporter
                 if (!DSPGame.IsMenuDemo) return;
                 //exportSeed(69696969);
                 //exportSeed(8600110);
+                //return;
                 var random = new System.Random((int)(DateTime.Now.Ticks / 10000L));
                 while (true)
                 {
@@ -180,12 +181,18 @@ namespace DSP_SeedExporter
                         ",\"landPercent\":" + planet.landPercent +
                         ",\"mod_x\":" + planet.mod_x +
                         ",\"mod_y\":" + planet.mod_y +
-                        ",\"waterHeight\":" + planet.waterHeight +
                         ",\"type\":" + (int)planet.type +
                         ",\"singularity\":" + (int)planet.singularity +
                         ",\"theme\":" + planet.theme +
                         ",\"algoId\":" + planet.algoId +
-                        ",\"uPosition\":{\"x\":" + planet.uPosition.x + ",\"y\":" + planet.uPosition.y + ",\"z\":" + planet.uPosition.z + "}");
+                        ",\"waterHeight\":" + planet.waterHeight);
+                    if (planet.waterItemId > 0)
+                    {
+                        ItemProto water = LDB.items.Select(planet.waterItemId);
+                        streamWriter.Write(
+                            ",\"waterItem\":\"" + water.name + "\""
+                        );
+                    }
                     if (planet.type == EPlanetType.Gas)
                     {
                         streamWriter.Write(",\"gasTotalHeat\":" + planet.gasTotalHeat);
@@ -215,7 +222,7 @@ namespace DSP_SeedExporter
                         }
                         streamWriter.Write("}"); // close vein[]
                     }
-                    streamWriter.Write("}"); // close planet
+                    streamWriter.Write(",\"uPosition\":{\"x\":" + planet.uPosition.x + ",\"y\":" + planet.uPosition.y + ",\"z\":" + planet.uPosition.z + "}}"); // close planet
                 }
                 finally { Monitor.Exit(streamWriter); }
                 planet.Unload();
