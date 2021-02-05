@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using HarmonyLib;
 using BepInEx;
 
@@ -21,6 +22,11 @@ namespace DSP_SeedExporter
         [HarmonyPatch(typeof(GameMain), "Begin")]
         public class GameMain_Begin
         {
+            static MemoryStream memoryStream;
+            static StreamWriter streamWriter;
+            static bool firstPlanet;
+            static object __lock = new object();
+
             static string seedExporterDir;
             [HarmonyPostfix]
             public static void Postfix(GameMain __instance)
@@ -31,39 +37,27 @@ namespace DSP_SeedExporter
                     Directory.CreateDirectory(seedExporterDir);
 
                 if (!DSPGame.IsMenuDemo) return;
-                exportSeed(69696969);
-                exportSeed(8600110);
+                //exportSeed(69696969);
+                //exportSeed(8600110);
+                var random = new System.Random((int)(DateTime.Now.Ticks / 10000L));
+                while (true)
+                {
+                    exportSeed(random.Next(100000000));
+                }
             }
 
             public static void exportSeed(int seed)
             {
                 UnityEngine.Debug.Log("exportSeed:" + seed);
                 // set up memoryStream to write output to
-                MemoryStream memoryStream = new MemoryStream();
-                StreamWriter streamWriter = new StreamWriter((Stream)memoryStream);
+                memoryStream = new MemoryStream();
+                streamWriter = new StreamWriter((Stream)memoryStream);
                 string path = seedExporterDir + "seed_" + seed + ".json";
 
                 // create new galaxy
                 GameDesc gameDesc = new GameDesc();
                 gameDesc.SetForNewGame(UniverseGen.algoVersion, seed, 64, 1, 1f);
                 GalaxyData galaxy = UniverseGen.CreateGalaxy(gameDesc);
-                //UnityEngine.Debug.Log("DSP_SeedExporter: seed: " + galaxy.seed);
-                //UnityEngine.Debug.Log("DSP_SeedExporter: starCount: " + galaxy.starCount);
-                //UnityEngine.Debug.Log("DSP_SeedExporter: birthPlanetId: " + galaxy.birthPlanetId);
-                //UnityEngine.Debug.Log("DSP_SeedExporter: birthStarId: " + galaxy.birthStarId);
-                //UnityEngine.Debug.Log("DSP_SeedExporter: habitableCount: " + galaxy.habitableCount);
-                //for (int i = 0; i < galaxy.stars.Length; i++)
-                //{
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: star index: " + galaxy.stars[i].index);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --          id: " + galaxy.stars[i].id);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --        name: " + galaxy.stars[i].name);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --        mass: " + galaxy.stars[i].mass);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --    lifetime: " + galaxy.stars[i].lifetime);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --         age: " + galaxy.stars[i].age);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: --        type: " + galaxy.stars[i].type);
-                //    UnityEngine.Debug.Log("DSP_SeedExporter: -- temperature: " + galaxy.stars[i].temperature);
-                //}
-                //UnityEngine.Debug.Log("DSP_SeedExporter: ---");
 
                 // dump to json
                 streamWriter.Write("{\"meta\":{" + 
@@ -81,14 +75,42 @@ namespace DSP_SeedExporter
                     if (i > 0) streamWriter.Write(",");
                     var star = galaxy.stars[i];
                     streamWriter.Write("\"" + star.name + "\":{" +
-                        "\"id\":" + star.id +
+                        "\"seed\":" + star.seed +
+                        ",\"index\":" + star.index +
+                        ",\"id\":" + star.id +
+                        ",\"name\":\"" + star.name + "\"" +
+                        ",\"position\":{\"x\":" + star.position.x + ",\"y\":" + star.position.y + ",\"z\":" + star.position.z + "}" +
+                        ",\"uPosition\":{\"x\":" + star.uPosition.x + ",\"y\":" + star.uPosition.y + ",\"z\":" + star.uPosition.z + "}" +
                         ",\"mass\":" + star.mass +
                         ",\"lifetime\":" + star.lifetime +
                         ",\"age\":" + star.age +
                         ",\"type\":" + (int)star.type +
-                        ",\"temperature\":" + star.temperature
-                    );
-                    streamWriter.Write("}"); // close star dict
+                        ",\"temperature\":" + star.temperature +
+                        ",\"spectr\":" + (int)star.spectr +
+                        ",\"classFactor\":" + star.classFactor +
+                        ",\"color\":" + star.color +
+                        ",\"luminosity\":" + star.luminosity +
+                        ",\"radius\":" + star.radius +
+                        ",\"acdiskRadius\":" + star.acdiskRadius +
+                        ",\"habitableRadius\":" + star.habitableRadius +
+                        ",\"lightBalanceRadius\":" + star.lightBalanceRadius +
+                        ",\"dysonRadius\":" + star.dysonRadius +
+                        ",\"orbitScaler\":" + star.orbitScaler +
+                        ",\"asterBelt1OrbitIndex\":" + star.asterBelt1OrbitIndex +
+                        ",\"asterBelt2OrbitIndex\":" + star.asterBelt2OrbitIndex +
+                        ",\"asterBelt1Radius\":" + star.asterBelt1Radius +
+                        ",\"asterBelt2Radius\":" + star.asterBelt2Radius +
+                        ",\"planetCount\":" + star.planetCount +
+                        ",\"level\":" + star.level +
+                        ",\"resourceCoef\":" + star.resourceCoef +
+                        ",\"planet\":{"
+                    ); // initial data, open planet[]
+                    firstPlanet = true;
+                    for (int j = 0; j < star.planets.Length; j++)
+                    {
+                        exportStar(star.planets[j]);
+                    }
+                    streamWriter.Write("}}"); // close planet[] and star dicts
                 }
                 streamWriter.Write("}"); // close star[] dict
 
@@ -111,6 +133,92 @@ namespace DSP_SeedExporter
                         memoryStream = null;
                     }
                 }
+            }
+
+            private static void exportStar(PlanetData planet)
+            {
+                UnityEngine.Debug.Log("-- planet: " + planet.id);
+                PlanetAlgorithm planetAlgorithm = PlanetModelingManager.Algorithm(planet);
+                planet.data = new PlanetRawData(planet.precision);
+                planet.modData = planet.data.InitModData(planet.modData);
+                planet.data.CalcVerts();
+                planet.aux = new PlanetAuxData(planet);
+                planetAlgorithm.GenerateTerrain(planet.mod_x, planet.mod_y);
+                planetAlgorithm.CalcWaterPercent();
+                if (planet.type != EPlanetType.Gas)
+                    planetAlgorithm.GenerateVegetables();
+                if (planet.type != EPlanetType.Gas)
+                    planetAlgorithm.GenerateVeins(false);
+                Monitor.Enter(streamWriter);
+                try
+                {
+                    if (!firstPlanet) { streamWriter.Write(","); } else { firstPlanet = false; }
+                    streamWriter.Write("\"" + planet.name + "\":{" +
+                        "\"seed\":" + planet.seed +
+                        ",\"index\":" + planet.index +
+                        ",\"id\":" + planet.id +
+                        ",\"orbitAround\":" + planet.orbitAround +
+                        ",\"number\":" + planet.number +
+                        ",\"orbitIndex\":" + planet.orbitIndex +
+                        ",\"name\":\"" + planet.name + "\"" +
+                        ",\"orbitRadius\":" + planet.orbitRadius +
+                        ",\"orbitInclination\":" + planet.orbitInclination +
+                        ",\"orbitLongitude\":" + planet.orbitLongitude +
+                        ",\"orbitalPeriod\":" + planet.orbitalPeriod +
+                        ",\"orbitPhase\":" + planet.orbitPhase +
+                        ",\"obliquity\":" + planet.obliquity +
+                        ",\"rotationPeriod\":" + planet.rotationPeriod +
+                        ",\"rotationPhase\":" + planet.rotationPhase +
+                        ",\"radius\":" + planet.radius +
+                        ",\"scale\":" + planet.scale +
+                        ",\"sunDistance\":" + planet.sunDistance +
+                        ",\"habitableBias\":" + planet.habitableBias +
+                        ",\"temperatureBias\":" + planet.temperatureBias +
+                        ",\"ionHeight\":" + planet.ionHeight +
+                        ",\"windStrength\":" + planet.windStrength +
+                        ",\"luminosity\":" + planet.luminosity +
+                        ",\"landPercent\":" + planet.landPercent +
+                        ",\"mod_x\":" + planet.mod_x +
+                        ",\"mod_y\":" + planet.mod_y +
+                        ",\"waterHeight\":" + planet.waterHeight +
+                        ",\"type\":" + (int)planet.type +
+                        ",\"singularity\":" + (int)planet.singularity +
+                        ",\"theme\":" + planet.theme +
+                        ",\"algoId\":" + planet.algoId +
+                        ",\"uPosition\":{\"x\":" + planet.uPosition.x + ",\"y\":" + planet.uPosition.y + ",\"z\":" + planet.uPosition.z + "}");
+                    if (planet.type == EPlanetType.Gas)
+                    {
+                        streamWriter.Write(",\"gasTotalHeat\":" + planet.gasTotalHeat);
+                        streamWriter.Write(",\"gas\":{"); // open gas[]
+                        bool firstvein = true;
+                        for (int k = 0; k < planet.gasItems.Length; k++)
+                        {
+                            ItemProto gas = LDB.items.Select(planet.gasItems[k]);
+                            if (firstvein == false) streamWriter.Write(","); else firstvein = false;
+                            streamWriter.Write("\"" + gas.name + "\":{" +
+                                "\"gasName\":\"" + gas.name + "\"" +
+                                ",\"gasItem\":" + planet.gasItems[k] +
+                                ",\"gasSpeed\":\"" + planet.gasSpeeds[k] + "\"" +
+                                ",\"gasHeatValue\":\"" + planet.gasHeatValues[k] + "\"}");
+                        }
+                        streamWriter.Write("}"); // close gas[]
+                    }
+                    else
+                    {
+                        streamWriter.Write(",\"vein\":{"); // open vein[]
+                        bool firstvein = true;
+                        for (int k = 0; k < planet.veinAmounts.Length; k++)
+                        {
+                            if (planet.veinAmounts[k] == 0) continue;
+                            if (firstvein == false) streamWriter.Write(","); else firstvein = false;
+                            streamWriter.Write("\"" + (EVeinType)k + "\":" + planet.veinAmounts[k]);
+                        }
+                        streamWriter.Write("}"); // close vein[]
+                    }
+                    streamWriter.Write("}"); // close planet
+                }
+                finally { Monitor.Exit(streamWriter); }
+                planet.Unload();
             }
         }
 
