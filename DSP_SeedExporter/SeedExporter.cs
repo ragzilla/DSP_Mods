@@ -37,9 +37,13 @@ namespace DSP_SeedExporter
                     Directory.CreateDirectory(seedExporterDir);
 
                 if (!DSPGame.IsMenuDemo) return;
-                //exportSeed(69696969);
-                //exportSeed(8600110);
-                //return;
+                // exportSeed(69696969);
+                // exportSeed(8600110);
+                // int[] seeds = new int[] { 32377329, 35039047, 55804541, 53369626, 44883152, 35281888, 50532815, 57014017, 67676767, 69696969, 16315940, 44444444, 77777777, 21212121, 71287251, 15125656, 13371990, 33333333, 00000272, 41231637, 47996971, 48321031, 32458661, 00000207, 50000017, 40988909, 29971707, 00000000, 51102421, 48, 444, 9393740, 40988909, 74564148, 41231637, 41231637, 13371990, 35039047, 50532815, 97, 77777777, 32458661, 26780867 };
+                // for (int i = 0; i < seeds.Length; i++) {
+                //     exportSeed(seeds[i]);
+                // }
+                // return;
                 var random = new System.Random((int)(DateTime.Now.Ticks / 10000L));
                 while (true)
                 {
