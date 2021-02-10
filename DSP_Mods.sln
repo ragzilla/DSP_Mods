@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_MoreStars", "DSP_MoreSt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_SeedExporter", "DSP_SeedExporter\DSP_SeedExporter.csproj", "{08A849A3-A728-4CF6-8643-65EC7D5CBB03}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSP_ColorExport", "DSP_ColorExport\DSP_ColorExport.csproj", "{2116A8BF-617D-4795-85DC-ABC426B132D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{08A849A3-A728-4CF6-8643-65EC7D5CBB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08A849A3-A728-4CF6-8643-65EC7D5CBB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08A849A3-A728-4CF6-8643-65EC7D5CBB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2116A8BF-617D-4795-85DC-ABC426B132D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2116A8BF-617D-4795-85DC-ABC426B132D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2116A8BF-617D-4795-85DC-ABC426B132D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2116A8BF-617D-4795-85DC-ABC426B132D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
