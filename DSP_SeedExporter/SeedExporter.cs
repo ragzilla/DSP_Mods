@@ -53,6 +53,7 @@ namespace DSP_SeedExporter
 
             public static void exportSeed(int seed)
             {
+                if (seed == 101118) return;
                 UnityEngine.Debug.Log("exportSeed:" + seed);
                 // set up memoryStream to write output to
                 memoryStream = new MemoryStream();
